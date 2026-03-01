@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta charset="UTF-8">
+<title>Happy Birthday, Kala</title>
+
+<!-- Font Bubble -->
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800&family=Baloo+2:wght@600;700;800&display=swap" rel="stylesheet">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{
+  overflow:hidden;
+  font-family:'Baloo 2', cursive;
+  background:#1a002c;
+  margin:0;
+  padding:0;
+}
+
+/* ================= PAGE 1 - JUDUL UTAMA ================= */
+#page1{
+  position:fixed;
+  width:100vw;
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  z-index:1;
+  background:#000000;
+}
+canvas{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  z-index:2;
+}
+
+#mainTitleContainer{
+  position:relative;
+  width:100%;
+  text-align:center;
+  z-index:3;
+  padding:0 15px;
+}
+
+#mainTitleLine1{
+  font-weight:800;
+  font-size:6vw;
+  line-height:1.4;
+  opacity:0;
+  transform:translateY(30px);
+  transition:all 0.8s ease-out;
+  white-space:nowrap;
+  display:inline-block;
+  padding:15px 35px;
+  background:#FF66C4;
+  color:white;
+  border-radius:50px;
+  box-shadow:0 0 25px rgba(255,102,196,0.7), inset 0 0 10px rgba(255,255,255,0.5);
+}
+
+#mainTitleLine2{
+  font-weight:700;
+  font-size:5.5vw;
+  line-height:1.4;
+  opacity:0;
+  transform:translateY(30px);
+  transition:all 0.8s ease-out 0.2s;
+  margin-top:15px; /* Jarak kecil di bawah judul utama */
+  color:#FFFFFF;
+  text-shadow:0 0 15px rgba(255,102,196,0.7);
+}
+
+#arrowBtn{
+  position:fixed;
+  bottom:5%;
+  right:5%;
+  background:#FF66C4;
+  border:none;
+  color:white;
+  width:18vw;
+  height:18vw;
+  max-width:90px;
+  max-height:90px;
+  border-radius:50%;
+  font-size:9vw;
+  opacity:0;
+  transform:scale(0.8);
+  transition:all 0.6s ease-out 0.4s;
+  cursor:pointer;
+  z-index:4;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  box-shadow:0 0 20px rgba(255,102,196,0.7);
+}
+
+/* ================= PAGE 2 - SUB JUDUL ================= */
+#page2{
+  position:fixed;
+  width:100vw;
+  height:100vh;
+  background:#6A0DAD;
+  display:none;
+  justify-content:center;
+  align-items:center;
+  z-index:1;
+}
+
+#subContentWrapper{
+  position:relative;
+  width:100%;
+  text-align:center;
+  z-index:3;
+  padding:0 15px;
+}
+
+#subTitle{
+  font-weight:700;
+  font-size:5vw;
+  color:#FFFFFF;
+  opacity:0;
+  transform:translateY(30px);
+  transition:all 0.8s ease-out;
+  text-shadow:0 0 15px rgba(255,102,196,0.7);
+}
+
+#readBtn{
+  font-family:'Baloo 2', cursive;
+  font-weight:700;
+  font-size:4.5vw;
+  padding:12px 30px;
+  background:#FF66C4;
+  color:white;
+  border:none;
+  border-radius:50px;
+  opacity:0;
+  transform:translateY(30px);
+  transition:all 0.8s ease-out 0.4s;
+  cursor:pointer;
+  box-shadow:0 0 20px rgba(255,102,196,0.7);
+  margin-top:20px; /* Jarak kecil di bawah sub judul */
+}
+
+/* ================= PAGE 3 - KERTAS SURAT ================= */
+#page3{
+  position:fixed;
+  width:100vw;
+  height:100vh;
+  background:linear-gradient(to bottom,#ffe6f2,#ffcce6);
+  display:none;
+  justify-content:center;
+  align-items:center;
+  z-index:1;
+  padding:15px 10px;
+}
+
+.paper{
+  width:90vw;
+  max-width:650px;
+  padding:30px 35px;
+  background:#fffdf7;
+  border-radius:20px;
+  box-shadow:0 10px 30px rgba(0,0,0,0.15);
+  font-family:'Baloo 2', cursive;
+  font-size:4.5vw;
+  color:#5a3e2b;
+  line-height:1.5; /* Jarak antar baris dalam teks sangat rapi */
+  text-align:left;
+}
+
+/* CONFETTI */
+.confetti{
+  position:absolute;
+  width:10px;
+  height:10px;
+  opacity:0.9;
+  border-radius:5px;
+  animation:fall linear forwards;
+}
+
+@keyframes fall{
+  to{transform:translateY(100vh) rotate(720deg);opacity:0;}
+}
+
+/* Kelas Animasi Umum */
+.title-active{
+  opacity:1 !important;
+  transform:translateY(0) !important;
+}
+.btn-active{
+  opacity:1 !important;
+  transform:scale(1) !important;
+}
+.btn-active-page2{
+  opacity:1 !important;
+  transform:translateY(0) !important;
+}
+.fade-out{
+  opacity:0 !important;
+  transform:translateY(-20px) !important;
+  transition:all 0.6s ease-in;
+}
+
+/* KEMBANG API ANIMASI */
+@keyframes paperDrop{
+  from{opacity:0;transform:translateY(-20px);}
+  to{opacity:1;transform:translateY(0);}
+}
+.paper{
+  opacity:0;
+  animation:paperDrop 0.8s ease-out forwards;
+}
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+<!-- PAGE 1 -->
+<div id="page1">
+  <canvas id="canvas"></canvas>
+  <div id="mainTitleContainer">
+    <div id="mainTitleLine1">Happy Birthday</div>
+    <div id="mainTitleLine2">Kala</div>
+  </div>
+  <button id="arrowBtn"><i class="fas fa-chevron-right"></i></button>
+</div>
+
+<!-- PAGE 2 -->
+<div id="page2">
+  <div id="subContentWrapper">
+    <div id="subTitle">I hope u read this</div>
+    <button id="readBtn">Read it</button>
+  </div>
+</div>
+
+<!-- PAGE 3 -->
+<div id="page3">
+  <div class="paper" id="letter"></div>
+</div>
+
+<script>
+// AMBIL ELEMEN
+const canvas = document.getElementById('canvas');
+const ctx = canvas.getContext('2d');
+const mainTitleLine1 = document.getElementById('mainTitleLine1');
+const mainTitleLine2 = document.getElementById('mainTitleLine2');
+const arrowBtn = document.getElementById('arrowBtn');
+const page1 = document.getElementById('page1');
+const page2 = document.getElementById('page2');
+const subTitle = document.getElementById('subTitle');
+const readBtn = document.getElementById('readBtn');
+const page3 = document.getElementById('page3');
+const letter = document.getElementById('letter');
+
+// ATUR UKURAN CANVAS
+function resizeCanvas() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
+
+// KEMBANG API
+let fireworks = [];
+let particles = [];
+
+class Firework {
+  constructor() {
+    this.x = Math.random() * canvas.width;
+    this.y = canvas.height;
+    this.targetY = Math.random() * (canvas.height * 0.2) + 50;
+    this.speedY = -7;
+    this.trail = [];
+    this.color = `hsl(${Math.random() * 360}, 100%, 65%)`;
+  }
+
+  update() {
+    this.trail.push({x: this.x, y: this.y});
+    if (this.trail.length > 10) this.trail.shift();
+    this.y += this.speedY;
+    return this.y > this.targetY;
+  }
+
+  draw() {
+    ctx.beginPath();
+    for (let i = 0; i < this.trail.length; i++) {
+      ctx.lineTo(this.trail[i].x, this.trail[i].y);
+    }
+    ctx.strokeStyle = 'rgba(255,255,255,0.6)';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, 4, 0, Math.PI * 2);
+    ctx.fillStyle = 'white';
+    ctx.fill();
+  }
+
+  explode() {
+    for (let i = 0; i < 80; i++) {
+      particles.push(new Particle(this.x, this.y, this.color));
+    }
+  }
+}
+
+class Particle {
+  constructor(x, y, color) {
+    this.x = x;
+    this.y = y;
+    this.dx = (Math.random() - 0.5) * 6;
+    this.dy = (Math.random() - 0.5) * 6;
+    this.gravity = 0.05;
+    this.life = 80;
+    this.size = Math.random() * 3 + 2;
+    this.color = color;
+  }
+
+  update() {
+    this.dy += this.gravity;
+    this.x += this.dx;
+    this.y += this.dy;
+    this.life--;
+    return this.life > 0;
+  }
+
+  draw() {
+    ctx.globalAlpha = this.life / 80;
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+    ctx.fillStyle = this.color;
+    ctx.shadowBlur = 10;
+    ctx.shadowColor = this.color;
+    ctx.fill();
+    ctx.globalAlpha = 1;
+  }
+}
+
+function animateFireworks() {
+  ctx.fillStyle = 'rgba(0, 0, 0, 0.15)';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  // UPDATE KEMBANG API
+  fireworks = fireworks.filter(firework => {
+    firework.draw();
+    const keep = firework.update();
+    if (!keep) firework.explode();
+    return keep;
+  });
+
+  // UPDATE PARTIKEL
+  particles = particles.filter(particle => {
+    particle.draw();
+    return particle.update();
+  });
+
+  requestAnimationFrame(animateFireworks);
+}
+animateFireworks();
+
+// TAMBAHKAN KEMBANG API
+let count = 0;
+const fireworkInterval = setInterval(() => {
+  fireworks.push(new Firework());
+  count++;
+  if (count >= 6) {
+    clearInterval(fireworkInterval);
+    setTimeout(() => {
+      mainTitleLine1.classList.add('title-active');
+      mainTitleLine2.classList.add('title-active');
+      arrowBtn.classList.add('btn-active');
+    }, 1500);
+  }
+}, 1000);
+
+// NAVIGASI
+arrowBtn.onclick = () => {
+  mainTitleLine1.classList.add('fade-out');
+  mainTitleLine2.classList.add('fade-out');
+  arrowBtn.classList.add('fade-out');
+  setTimeout(() => {
+    page1.style.display = 'none';
+    page2.style.display = 'flex';
+    subTitle.classList.add('title-active');
+    readBtn.classList.add('btn-active-page2');
+  }, 600);
+};
+
+readBtn.onclick = () => {
+  subTitle.classList.add('fade-out');
+  readBtn.classList.add('fade-out');
+  setTimeout(() => {
+    page2.style.display = 'none';
+    page3.style.display = 'flex';
+    startTyping();
+    startConfetti();
+  }, 600);
+};
+
+// TEKS PESAN
+const text = "Happy birthday, Kala.\nWish u all the best!\nSemoga setiap langkah mu ke depan dipenuhi cinta, kebahagiaan, dan orang-orang yang benar-benar menghargai kamu.\nYou deserve a love that feels safe, real, and endless… and I hope this year brings u closer to that.";
+
+// FUNGSI KETIK
+let charIndex = 0;
+function startTyping() {
+  if (charIndex < text.length) {
+    // TANPA TAMBAHAN BARIS KOSONG BERLEBIH
+    letter.innerHTML += text.charAt(charIndex) === '\n' ? '<br>' : text.charAt(charIndex);
+    charIndex++;
+    setTimeout(startTyping, 35);
+  }
+}
+
+// FUNGSI CONFETTI
+function startConfetti() {
+  for (let i = 0; i < 70; i++) {
+    const conf = document.createElement('div');
+    conf.className = 'confetti';
+    conf.style.left = `${Math.random() * 100}vw`;
+    conf.style.background = `hsl(${Math.random() * 360}, 100%, 65%)`;
+    conf.style.animationDuration = `${2 + Math.random() * 3}s`;
+    page3.appendChild(conf);
+    setTimeout(() => conf.remove(), 4500);
+  }
+}
+</script>
+</body>
+</html>
